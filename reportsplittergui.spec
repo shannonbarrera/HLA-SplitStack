@@ -5,7 +5,7 @@ a = Analysis(
     ['reportsplittergui.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('stackicon.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,4 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='stackicon.ico'
 )

@@ -28,6 +28,7 @@ import tkinter as tk
 from tkinter import filedialog
 import reportsplitter
 import os
+import sys
 
 class FileInfo:
     """
@@ -69,28 +70,49 @@ def split_file():
     Calls the report splitter on the selected file and closes the application after processing.
     """
     reportsplitter.main(filetosplit.filepath)
+    folder_path = os.path.dirname(filetosplit.filepath)
+
+    # Open the folder after splitting
+    if sys.platform == "win32":
+        os.startfile(folder_path)
+    elif sys.platform == "darwin":  # macOS
+        os.system(f"open '{folder_path}'")
+    else:  # Linux and others
+        os.system(f"xdg-open '{folder_path}'")
+
     root.destroy()
+
+if getattr(sys, 'frozen', False):
+    # If running as bundled exe
+    icon_path = os.path.join(sys._MEIPASS, "stackicon.ico")
+else:
+    # If running from script
+    icon_path = "stackicon.ico"
 
 # --- GUI Setup ---
 
 root = tk.Tk()
+root.configure(bg="#EFDAFB")
 root.title("HLA Fusion Report Splitter")
 root.geometry("150x150+20+50")
+root.iconbitmap(icon_path)
 
 # Create a FileInfo object with a placeholder path (will be updated after file selection)
 filetosplit = FileInfo("unknown")
 
 # Button to select the PDF file
-filebutton = tk.Button(root, text="Select file", command=askfor_openfile)
+filebutton = tk.Button(root, text="Select file", command=askfor_openfile, bg="white", activebackground="#D3F8E2", fg="black", bd=2,
+                    highlightbackground="#A0C4FF", highlightthickness=1,)
 filebutton.pack(padx=20, pady=12)
 
 # Label to show selected file name
-output_label = tk.Label(root, text="No file selected")
+output_label = tk.Label(root, text="No file selected", bg="#EFDAFB", fg="black")
 output_label.pack(pady=10)
 
 # Button to split the PDF into individual reports
-splitbutton = tk.Button(root, text="Split file", command=split_file)
-splitbutton.pack(padx=20, pady=20)
+splitbutton = tk.Button(root, text="Split file", command=split_file, bg="white", activebackground="#D3F8E2", fg="black", bd=2,
+                    highlightbackground="#A0C4FF", highlightthickness=1,)
+splitbutton.pack(padx=20, pady=12)
 
 # Start the GUI event loop
 root.mainloop()
