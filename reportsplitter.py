@@ -20,7 +20,7 @@ Dependencies:
     - reporttype (custom module for identifying report type)
 
 Note:
-    This script is designed for use in HLA labs processing batch PDF exports 
+    This script is designed for use in labs processing batch PDF exports 
     from HLA Fusion. Output files are named using Sample ID when available.
 
 By: Shannon Barrera
