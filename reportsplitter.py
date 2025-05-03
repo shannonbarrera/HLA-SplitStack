@@ -30,8 +30,7 @@ import re
 import pypdf
 import reporttype
 import os
-
-
+from pathvalidate import sanitize_filename
 
 
 def countpages(pdffilename):
@@ -118,12 +117,8 @@ def getoutputfilenames(pdffilename, firstpages, reporttype):
             output_filename = output_filename.replace("Sample ID", "")
             output_filename = output_filename.replace("Local ID", "")
             output_filename = output_filename.replace("Patient ID", "")
-            output_filename = output_filename.replace(":", "")
-            output_filename = output_filename.replace(".", "")
-            output_filename = re.sub(r'\d+', '', output_filename)
-            output_filename = output_filename.strip()
+            output_filename = sanitize_filename(output_filename)
             names.append(output_filename)
-
     return names
 
 
@@ -152,7 +147,7 @@ def splitpages(pdffilename,firstpage,nextreport,outputfilename):
     if report_type.startswith("PRA"):
         outputfilename = outputfilename + " " + report_type + ".pdf"
     else:
-        outputfilename = outputfilename + " " + report_type + "-1.pdf"
+        outputfilename = outputfilename + " " + report_type + ".pdf"
 
     filepath = os.path.dirname(pdffilename)
     filepath = filepath + "/" + outputfilename
